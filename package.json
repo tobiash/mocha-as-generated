@@ -16,6 +16,9 @@
         "test-browser": "opener ./test/index.html",
         "lint": "jshint mocha-as-promised.js"
     },
+    "dependencies": {
+        "genny": "0.5.x"
+    },
     "peerDependencies": {
         "mocha": ">= 1.8.0 <2"
     },

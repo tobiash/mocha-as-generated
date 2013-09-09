@@ -106,10 +106,15 @@
                 },
                 set: function (fn) {
                     this._wrappedFn = function (done) {
-                        // Run the original `fn`, passing along `done` for the case in which it's callback-asynchronous.
-                        // Make sure to forward the `this` context, since you can set variables and stuff on it to share
-                        // within a suite.
-                        var retVal = fn.call(this, done);
+                        var retVal = null;
+                        if (fn.constructor.name === 'GeneratorFunction') {
+                          require('genny').run(fn.bind(this), done);
+                        } else {
+                          // Run the original `fn`, passing along `done` for the case in which it's callback-asynchronous.
+                          // Make sure to forward the `this` context, since you can set variables and stuff on it to share
+                          // within a suite.
+                          retVal = fn.call(this, done);
+                        }
 
                         if (isPromise(retVal)) {
                             // If we get a promise back...
